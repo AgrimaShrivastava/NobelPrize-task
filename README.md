@@ -7,8 +7,8 @@ information : </p>
   <li> Motivation </li>
   <li>Laureates (who won the prize : can be multiple per prize) </li>
 </ul>
+ <p> Each Laureate follows the following structure: </p>
 <ul> 
-  <li> Each Laureate follows the following structure: </li>
   <li> Id (unique id) </li>
   <li> First name </li>
   <li> last name </li>
