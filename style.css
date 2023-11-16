@@ -1,0 +1,46 @@
+
+.tab{
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.tab2{
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+nav{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    font-size: 24px; 
+    font-weight: bold;
+  }
+
+#a:hover{
+    color: rgb(69, 69, 182);
+}
+
+.select {
+    padding: 20px;
+  }
+
+.select label{
+    font-size: large;
+}
+
+#categoryFilter{
+    padding: 3px;
+}
+
+#yearFilter{
+    padding: 3px;
+}
+
+label{
+    margin-left: 10px;
+}

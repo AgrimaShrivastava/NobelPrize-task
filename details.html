@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nobel Prize Details</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg  bg-secondary">
+        <div class="container-fluid" >
+          <a class="navbar-brand text-light" href="#">Nobel Prizes</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav" >
+              <a class="nav-link active text-light" aria-current="page" href="index.html" id="a">Home</a>
+              <a class="nav-link text-light" href="details.html" id="a">Repeat Laureates</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+        
+          <div class="tab2">
+            <table class="table table-dark table-striped-columns" >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Motivation</th>
+                    <th>Share</th>
+                  </tr>
+                </thead>
+                <tbody id="detailsTableBody">
+                  <!-- Table rows will be dynamically added here -->
+                </tbody>
+              </table>
+          </div>
+          <script>
+            // Fetch the JSON data (similar to the previous code)
+            fetch('data.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(jsonData => {
+        if (!jsonData || !Array.isArray(jsonData.prizes)) {
+          throw new Error('Invalid JSON data format. Expected an object with a "prizes" array.');
+        }
+
+        // Extract laureates who have won more than 1 time
+        const repeatWinners = jsonData.prizes.flatMap(prize => prize.laureates || [])
+          .reduce((acc, laureate) => {
+            if (laureate && laureate.id) {
+              acc[laureate.id] = acc[laureate.id] || { count: 0, details: laureate };
+              acc[laureate.id].count++;
+            } else {
+              console.warn('Invalid laureate data:', laureate);
+            }
+            return acc;
+          }, {});
+
+            const repeatWinnersArray = Object.values(repeatWinners).filter(winner => winner.count > 1);
+
+            // Sort repeatWinnersArray by the count in descending order
+            repeatWinnersArray.sort((a, b) => b.count - a.count);
+
+            // Take the top 4 repeat winners
+            const topRepeatWinners = repeatWinnersArray.slice(0, 4);
+
+            console.log('Top Repeat Winners:', topRepeatWinners);
+
+            // Populate the details table
+            const detailsTableBody = document.getElementById('detailsTableBody');
+            if (!detailsTableBody) {
+            throw new Error('Table body not found.');
+            }
+
+            topRepeatWinners.forEach(winner => {
+            const row = detailsTableBody.insertRow();
+            const idCell = row.insertCell(0);
+            const firstNameCell = row.insertCell(1);
+            const lastNameCell = row.insertCell(2);
+            const motivationCell = row.insertCell(3);
+            const shareCell = row.insertCell(4);
+
+            idCell.textContent = winner.details.id;
+            firstNameCell.textContent = winner.details.firstname;
+            lastNameCell.textContent = winner.details.surname;
+            motivationCell.textContent = winner.details.motivation;
+            shareCell.textContent = winner.details.share;
+            });
+      })
+      .catch(error => console.error('Error fetching or parsing data:', error));
+          </script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
+</html>
