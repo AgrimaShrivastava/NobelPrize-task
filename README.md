@@ -1,5 +1,5 @@
 # NobelPrize-task
-<p>The application contains the data that is, list of Nobel prizes and their winners</p>br Each prize contains the following
+<p>The application contains the data that is, list of Nobel prizes and their winners</p> </br> Each prize contains the following
 information : </p>
 <ul>
   <li> Which year was the prize won in </li>
